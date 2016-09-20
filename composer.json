@@ -1,7 +1,6 @@
 {
   "name": "pluggit/logging",
   "description": "Logging abstraction layer",
-  "type": "lib",
   "require": {
     "psr/log": "^1.0"
   },
