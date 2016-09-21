@@ -49,6 +49,9 @@ class LoggingFactory
 
     }
 
+    /**
+     * 
+     */
     public function setSyslogUdpHandler()
     {
 
