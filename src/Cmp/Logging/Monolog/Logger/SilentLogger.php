@@ -1,6 +1,7 @@
 <?php
-namespace Cmp\Logging\Logger;
+namespace Cmp\Logging\Monolog\Logger;
 use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 
 class SilentLogger extends Logger implements LoggerInterface
 {
