@@ -2,16 +2,16 @@
 namespace Cmp\Logging\Monolog\Handler;
 
 use Monolog\Formatter\FormatterInterface;
+use Monolog\Handler\AbstractHandler;
 
 interface HandlerBuilderInterface
 {
     /**
      * @param string             $channelName
-     * @param string             $level
      * @param array              $processors
      * @param FormatterInterface $formatter
      *
-     * @return mixed
+     * @return AbstractHandler
      */
-    public function build($channelName, $level, $processors = [], FormatterInterface $formatter);
+    public function build($channelName, $processors = [], FormatterInterface $formatter);
 }

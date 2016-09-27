@@ -1,5 +1,6 @@
 <?php
 namespace Cmp\Logging\Monolog\Logger;
+
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
