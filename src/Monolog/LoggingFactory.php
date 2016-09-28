@@ -7,6 +7,7 @@ use Cmp\Logging\Monolog\Handler\RotatingFileHandlerBuilder;
 use Cmp\Logging\Monolog\Handler\SyslogUdpHandlerBuilder;
 use Cmp\Logging\Monolog\Logger\SilentLogger;
 use Monolog\Formatter\FormatterInterface;
+use Monolog\Handler\AbstractHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
@@ -25,12 +26,12 @@ class LoggingFactory implements LoggerFactoryInterface
     /**
      * @var HandlerBuilderInterface[]
      */
-    private $handlers = [];
+    private $handlerBuilders = [];
 
     /**
-     * @var array
+     * @var HandlerBuilderInterface[]
      */
-    private $handlerBuilders = [];
+    private $errorHandlerBuilders = [];
 
     /**
      * @var FormatterInterface
@@ -41,11 +42,6 @@ class LoggingFactory implements LoggerFactoryInterface
      * @var array
      */
     private $processors = [];
-
-    /**
-     * @var array
-     */
-    private $context = [];
 
     /**
      * LoggingFactory constructor.
@@ -62,24 +58,24 @@ class LoggingFactory implements LoggerFactoryInterface
 
     /**
      * @param $directoryPath
+     * @param $dateFormat
+     * @param $maxFiles
      * @param $fileName
      * @param $filenameFormat
      * @param $level
-     * @param $dateFormat
      */
-    public function setRotatingFileHandlerConfiguration($directoryPath, $dateFormat, $maxFiles, $fileName, $filenameFormat, $level)
+    public function addRotatingFileHandlerBuilder($directoryPath, $dateFormat, $maxFiles, $fileName, $filenameFormat, $level)
     {
         $handler = new RotatingFileHandlerBuilder($directoryPath, $dateFormat, $maxFiles, $fileName, $filenameFormat, $level);
-        $this->setErrorHandler($handler);
         $this->handlerBuilders[] = $handler;
     }
 
     /**
-     * @param $syslogUdpHandler
      * @param $syslogUdpHost
      * @param $syslogUdpPort
+     * @param $level
      */
-    public function setSyslogUdpHandlerConfiguration($syslogUdpHost, $syslogUdpPort, $level)
+    public function addSyslogUdpHandlerBuilder($syslogUdpHost, $syslogUdpPort, $level)
     {
         $this->handlerBuilders[] = new SyslogUdpHandlerBuilder($syslogUdpHost, $syslogUdpPort, $level);
     }
@@ -89,11 +85,9 @@ class LoggingFactory implements LoggerFactoryInterface
      *
      * @return mixed
      */
-    public function setErrorHandler(HandlerBuilderInterface $handlerBuilder)
+    public function addErrorHandlerBuilder(HandlerBuilderInterface $handlerBuilder)
     {
-        $handler = $handlerBuilder->build('error', $this->processors, $this->formatter);
-        $handler->setLevel(Logger::ERROR);
-        $this->handlers[] = $handler;
+        $this->errorHandlerBuilders[] = $handlerBuilder;
     }
 
     /**
@@ -124,7 +118,6 @@ class LoggingFactory implements LoggerFactoryInterface
 
         if (!isset($this->loggerChannels[$channel])) {
             $this->loggerChannels[$channel] = $this->createLogger($channel);
-            $this->loggerChannels[$channel]->addDefaultContext($this->context);
         }
 
         return $this->loggerChannels[$channel];
@@ -139,14 +132,20 @@ class LoggingFactory implements LoggerFactoryInterface
      */
     private function createLogger($channel)
     {
-        $handlers = $this->handlers;
+        $handlers = [];
 
         foreach ($this->handlerBuilders as $handlerBuilder) {
-            $handlers[] = $handlerBuilder->build($channel, $this->processors, $this->formatter);
+            $handler = $handlerBuilder->build($channel, $this->formatter, $this->processors);
+            $handlers[] = $handler;
+        }
+        
+        foreach ($this->errorHandlerBuilders as $errorHandlerBuilder)
+        {
+            $handler = $errorHandlerBuilder->build($channel, $this->formatter, $this->processors);
+            $handler->setLevel(Logger::ERROR);
+            $handlers[] = $handler;
         }
 
-        $logger = new SilentLogger($channel, $handlers);
-
-        return $logger;
+        return new Logger($channel, $handlers);
     }
 }

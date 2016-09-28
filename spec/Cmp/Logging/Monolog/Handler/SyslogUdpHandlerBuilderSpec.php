@@ -21,6 +21,6 @@ class SyslogUdpHandlerBuilderSpec extends ObjectBehavior
 
     function it_should_build_the_handler(FormatterInterface $formatter)
     {
-        $this->build('test', [], $formatter)->shouldReturnAnInstanceOf('Monolog\Handler\SyslogUdpHandler');
+        $this->build('test', $formatter, [])->shouldReturnAnInstanceOf('Monolog\Handler\SyslogUdpHandler');
     }
 }

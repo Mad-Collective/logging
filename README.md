@@ -20,10 +20,11 @@ $logger = new LoggingFactory('wellhello', new JsonFormatter(true));
 <?php
 use Cmp\Logging\Monolog\LoggingFactory;
 use Monolog\Formatter\JsonFormatter(true);
+use Monolog\Logger;
 
 $logger = new LoggingFactory('wellhello', new JsonFormatter(true));
-//setRotatingFileHandlerConfiguration(directory path, date format, max files number, file name, file name format, default level)
-$logger->setRotatingFileHandlerConfiguration('directory/path','Y-m-d', 14, '{channel}.log', '{date}_{filename}', 'error');
+//addRotatingFileHandlerBuilder(directory path, date format, max files number, file name, file name format, level)
+$logger->addRotatingFileHandlerBuilder('directory/path','Y-m-d', 14, '{channel}.log', '{date}_{filename}', Logger::ERROR);
 ```
 - SyslogUdpHandler
 ```php
@@ -32,8 +33,8 @@ use Cmp\Logging\Monolog\LoggingFactory;
 use Monolog\Formatter\JsonFormatter(true);
 
 $logger = new LoggingFactory('wellhello', new JsonFormatter(true));
-//setSyslogUdpHandlerConfiguration(syslog UDP Host, syslog UDP Port, default channel)
-$logger->setSyslogUdpHandlerConfiguration('12.34.56.78', '90', 'error');
+//addSyslogUdpHandlerBuilder(syslog UDP Host, syslog UDP Port, level)
+$logger->addSyslogUdpHandlerBuilder('12.34.56.78', '90', Logger::ERROR);
 ```
 ### Adding custom handler
 To add custom handler you should write handler builder implementing HandlerBuilderInterface:
@@ -42,18 +43,18 @@ To add custom handler you should write handler builder implementing HandlerBuild
 namespace Cmp\Logging\Monolog\Handler;
 
 use Monolog\Formatter\FormatterInterface;
+use Monolog\Handler\AbstractHandler;
 
 interface HandlerBuilderInterface
 {
     /**
      * @param string             $channelName
-     * @param string             $level
      * @param array              $processors
      * @param FormatterInterface $formatter
      *
-     * @return HandlerInterface
+     * @return AbstractHandler
      */
-    public function build($channelName, $level, $processors = [], FormatterInterface $formatter);
+    public function build($channelName, FormatterInterface $formatter, $processors = []);
 }
 ```
 The handler builder should be added using addHandlerBuilder method:
@@ -67,7 +68,18 @@ $logger = new LoggingFactory('wellhello', new JsonFormatter(true));
 $handlerBuilder = new CustomHandlerBuilder($param1, $param2);
 $logger->addHandlerBuilder($handlerBuilder);
 ```
+### Error handler
+To add default error handler use addErrorHandlerBuilder method.
+```php
+<?php
+use Cmp\Logging\Monolog\LoggingFactory;
+use Monolog\Formatter\JsonFormatter(true);
+use Customer\Namespace\CustomHandlerBuilder;
 
+$logger = new LoggingFactory('wellhello', new JsonFormatter(true));
+$handlerBuilder = new CustomHandlerBuilder($param1, $param2);
+$logger->addErrorHandlerBuilder($handlerBuilder);
+```
 ## Processors
 ```php
 <?php

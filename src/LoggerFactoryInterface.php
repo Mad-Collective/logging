@@ -6,7 +6,7 @@ use Psr\Log\LoggerInterface;
 interface LoggerFactoryInterface
 {
     /**
-     * @param null $channel
+     * @param string|null $channel
      *
      * @return LoggerInterface
      */

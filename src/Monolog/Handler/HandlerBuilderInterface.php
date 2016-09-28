@@ -8,10 +8,10 @@ interface HandlerBuilderInterface
 {
     /**
      * @param string             $channelName
-     * @param array              $processors
      * @param FormatterInterface $formatter
+     * @param array              $processors
      *
      * @return AbstractHandler
      */
-    public function build($channelName, $processors = [], FormatterInterface $formatter);
+    public function build($channelName, FormatterInterface $formatter, $processors = []);
 }

@@ -22,6 +22,6 @@ class RotatingFileHandlerBuilderSpec extends ObjectBehavior
 
     function it_should_build_the_handler(FormatterInterface $formatter)
     {
-        $this->build('test', [], $formatter)->shouldReturnAnInstanceOf('Monolog\Handler\RotatingFileHandler');
+        $this->build('test', $formatter, [])->shouldReturnAnInstanceOf('Monolog\Handler\RotatingFileHandler');
     }
 }

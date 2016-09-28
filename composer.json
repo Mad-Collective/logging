@@ -2,11 +2,12 @@
   "name": "pluggit/logging",
   "description": "Logging abstraction layer",
   "require": {
-    "psr/log": "^1.0",
-    "monolog/monolog": "^1.21"
+    "psr/log": "^1.0"
   },
   "require-dev": {
+    "monolog/monolog": "^1.21",
     "phpspec/phpspec": "^2.5",
+    "behat/behat": "^3.1",
     "phpunit/phpunit": "4.8.*",
     "squizlabs/php_codesniffer": "2.*",
     "henrikbjorn/phpspec-code-coverage": "2.*"
@@ -17,7 +18,8 @@
   },
   "autoload": {
     "psr-4": {
-      "": "src"
+      "Cmp\\Logging\\": "src/",
+      "features\\Cmp\\Logging\\": "tests/features/bootstrap/"
     }
   },
   "authors": [

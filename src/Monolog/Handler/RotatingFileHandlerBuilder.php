@@ -6,18 +6,34 @@ use Monolog\Handler\RotatingFileHandler;
 
 class RotatingFileHandlerBuilder implements HandlerBuilderInterface
 {
-    private $config = [];
-
+    /**
+     * @var string
+     */
     private $dateFormat;
 
+    /**
+     * @var integer
+     */
     private $maxFiles;
 
+    /**
+     * @var string
+     */
     private $fileName;
 
+    /**
+     * @var string
+     */
     private $fileNameFormat;
 
+    /**
+     * @var string
+     */
     private $directoryPath;
-    
+
+    /**
+     * @var integer
+     */
     private $level;
 
     /**
@@ -44,20 +60,15 @@ class RotatingFileHandlerBuilder implements HandlerBuilderInterface
     /**
      * @inheritDoc
      */
-    public function build($channelName, $processors = [], FormatterInterface $formatter)
+    public function build($channelName, FormatterInterface $formatter, $processors = [])
     {
         $fileName = $this->directoryPath.'/'.str_replace('{channel}', $channelName, $this->fileName);
         $handler = new RotatingFileHandler($fileName, $this->maxFiles);
         $handler->setFilenameFormat($this->fileNameFormat, $this->dateFormat);
-        $handler->setLevel($this->level);
         $handler->setFormatter($formatter);
+        $handler->setLevel($this->level);
         array_map([$handler, 'pushProcessor'], $processors);
 
         return $handler;
-    }
-
-    public function setConfiguration($config)
-    {
-        $this->config = $config;
     }
 }

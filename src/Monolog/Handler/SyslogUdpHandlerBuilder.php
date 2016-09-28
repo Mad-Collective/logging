@@ -2,24 +2,37 @@
 namespace Cmp\Logging\Monolog\Handler;
 
 use Monolog\Formatter\FormatterInterface;
+use Monolog\Handler\AbstractHandler;
 use Monolog\Handler\SyslogUdpHandler;
 
 class SyslogUdpHandlerBuilder implements HandlerBuilderInterface
 {
+    /**
+     * @var AbstractHandler
+     */
     private $syslogUdpHandler;
 
+    /**
+     * @var string
+     */
     private $syslogUdpHost;
 
+    /**
+     * @var string
+     */
     private $syslogUdpPort;
 
+    /**
+     * @var integer
+     */
     private $level;
 
     /**
      * SyslogUdpHandlerBuilder constructor.
      *
-     * @param $syslogUdpHost
-     * @param $syslogUdpPort
-     * @param $level
+     * @param string  $syslogUdpHost
+     * @param string  $syslogUdpPort
+     * @param integer $level
      */
     public function __construct($syslogUdpHost, $syslogUdpPort, $level)
     {
@@ -28,11 +41,10 @@ class SyslogUdpHandlerBuilder implements HandlerBuilderInterface
         $this->level = $level;
     }
 
-
     /**
      * @inheritDoc
      */
-    public function build($channelName, $processors = [], FormatterInterface $formatter)
+    public function build($channelName, FormatterInterface $formatter, $processors = [])
     {
         if (!$this->syslogUdpHandler) {
             if (empty($this->syslogUdpHost)) {
@@ -45,5 +57,4 @@ class SyslogUdpHandlerBuilder implements HandlerBuilderInterface
         }
         return $this->syslogUdpHandler;
     }
-
 }

@@ -36,7 +36,7 @@ class LoggingFactorySpec extends ObjectBehavior
     {
         $this->beConstructedWith('test', $formatter);
         $channelName = 'test';
-        $handlerBuilder->build($channelName, [], $formatter)->willReturn($handler);
+        $handlerBuilder->build($channelName, $formatter, [])->willReturn($handler);
         $this->addHandlerBuilder($handlerBuilder);
         $this->get($channelName)->getHandlers()->shouldReturn([$handler]);
     }
@@ -45,8 +45,8 @@ class LoggingFactorySpec extends ObjectBehavior
     {
         $this->beConstructedWith('test', $formatter);
         $channelName = 'test';
-        $rotatingFileHandlerBuilder->build($channelName, [], $formatter)->willReturn($rotatingFileHandler);
-        $syslogUdpHandlerBuilder->build($channelName, [], $formatter)->willReturn($syslogUdpHandlerBuilder);
+        $rotatingFileHandlerBuilder->build($channelName, $formatter, [])->willReturn($rotatingFileHandler);
+        $syslogUdpHandlerBuilder->build($channelName, $formatter, [])->willReturn($syslogUdpHandlerBuilder);
         $this->addHandlerBuilder($rotatingFileHandlerBuilder);
         $this->addHandlerBuilder($syslogUdpHandlerBuilder);
         $this->get($channelName)->getHandlers()->shouldReturn([$rotatingFileHandler, $syslogUdpHandlerBuilder]);
@@ -54,22 +54,21 @@ class LoggingFactorySpec extends ObjectBehavior
     
     function it_should_build_rotating_file_handler()
     {
-        $this->setRotatingFileHandlerConfiguration('log', 'Y-m-d', '{channel}.log', 14, '{date}_{filename}', Logger::NOTICE);
+        $this->addRotatingFileHandlerBuilder('log', 'Y-m-d', '{channel}.log', 14, '{date}_{filename}', Logger::NOTICE);
         $this->get('test')->getHandlers()[0]->shouldBeAnInstanceOf('Monolog\Handler\RotatingFileHandler');
     }
 
     function it_should_build_syslog_udp_handler()
     {
-        $this->setSyslogUdpHandlerConfiguration('123.34.4.45', 89, Logger::NOTICE);
+        $this->addSyslogUdpHandlerBuilder('123.34.4.45', 89, Logger::NOTICE);
         $this->get('test')->getHandlers()[0]->shouldBeAnInstanceOf('Monolog\Handler\SyslogUdpHandler');
     }
 
     function it_should_build_two_handlers()
     {
-        $this->setSyslogUdpHandlerConfiguration('123.34.4.45', 89, Logger::NOTICE);
-        $this->setRotatingFileHandlerConfiguration('log', 'Y-m-d', '{channel}.log', 14, '{date}_{filename}', Logger::NOTICE);
-        $this->get('test')->getHandlers()[0]->shouldBeAnInstanceOf('Monolog\Handler\RotatingFileHandler');
-        $this->get('test')->getHandlers()[1]->shouldBeAnInstanceOf('Monolog\Handler\SyslogUdpHandler');
-
+        $this->addSyslogUdpHandlerBuilder('123.34.4.45', 89, Logger::NOTICE);
+        $this->addRotatingFileHandlerBuilder('log', 'Y-m-d', '{channel}.log', 14, '{date}_{filename}', Logger::NOTICE);
+        $this->get('test')->getHandlers()[0]->shouldBeAnInstanceOf('Monolog\Handler\SyslogUdpHandler');
+        $this->get('test')->getHandlers()[1]->shouldBeAnInstanceOf('Monolog\Handler\RotatingFileHandler');
     }
 }
