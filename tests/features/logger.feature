@@ -29,3 +29,8 @@ Feature: As a library user i need to be able to create logger and log informatio
     When I log warning "test warning"
     Then I should have log with memory informaton
     And I should log into file "test warning"
+
+  Scenario: Logging exception to rotating file logger
+    Given I built a logger with syslog handler and rotating file handler
+    When I log warning "test warning" with an exception
+    Then I should log an exception into file log

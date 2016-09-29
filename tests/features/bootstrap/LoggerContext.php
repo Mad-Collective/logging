@@ -2,10 +2,9 @@
 namespace features\Cmp\Logging;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
+use Cmp\Logging\Monolog\Formatter\ElasticSearchFormatter;
 use Cmp\Logging\Monolog\Handler\RotatingFileHandlerBuilder;
 use Cmp\Logging\Monolog\LoggingFactory;
-use Monolog\Formatter\JsonFormatter;
 use Monolog\Handler\SyslogUdpHandler;
 use Monolog\Logger;
 use Monolog\Processor\MemoryUsageProcessor;
@@ -30,7 +29,7 @@ class LoggerContext implements Context
      */
     public function __construct()
     {
-        $this->logger = new LoggingFactory('wellhello', new JsonFormatter(true));
+        $this->logger = new LoggingFactory('wellhello', new ElasticSearchFormatter(true));
         $this->udpSocket = new UdpSocketStub('127.0.0.1', 10);
         if( ! ini_get('date.timezone') )
         {
@@ -163,6 +162,26 @@ class LoggerContext implements Context
 
         if (is_null($log->extra->memory_usage)) {
             throw new RuntimeException("Log does not contain memory usage info");
+        }
+    }
+
+    /**
+     * @When I log warning :log with an exception
+     */
+    public function iLogWarningWithAnException($log)
+    {
+        $this->logger->get('test_channel')->info($log, ['context' => new \Exception()]);
+    }
+
+    /**
+     * @Then I should log an exception into file log
+     */
+    public function iShouldLogAnExceptionIntoFileLog()
+    {
+        $lines = $this->udpSocket->getLines();
+        $line = json_decode($lines[0]);
+        if (!is_string($line->context->context)) {
+            throw new RuntimeException("The exception has not been normalized");
         }
     }
 
