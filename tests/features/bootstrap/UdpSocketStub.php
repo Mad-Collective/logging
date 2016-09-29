@@ -16,9 +16,10 @@ class UdpSocketStub extends UdpSocket
     protected $lines = [];
 
     /**
-     * @param string $line
+     * @param        $line
+     * @param string $header
      */
-    public function write($line)
+    public function write($line, $header = "")
     {
         $this->lines[] = $line;
     }

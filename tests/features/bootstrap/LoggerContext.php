@@ -23,6 +23,10 @@ class LoggerContext implements Context
     {
         $this->logger = new LoggingFactory('wellhello', new JsonFormatter(true));
         $this->udpSocket = new UdpSocketStub('127.0.0.1', 10);
+        if( ! ini_get('date.timezone') )
+        {
+            date_default_timezone_set('UTC');
+        }
     }
 
     /**

@@ -13,6 +13,10 @@ class RotatingFileHandlerBuilderSpec extends ObjectBehavior
     function let()
     {
         $this->beConstructedWith('log', 'Y-m-d', '{channel}.log', 14, '{date}_{filename}', Logger::NOTICE);
+        if( ! ini_get('date.timezone') )
+        {
+            date_default_timezone_set('UTC');
+        }
     }
 
     function it_is_initializable()

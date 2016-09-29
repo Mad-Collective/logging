@@ -19,6 +19,10 @@ class LoggingFactorySpec extends ObjectBehavior
     function let(FormatterInterface $formatter)
     {
         $this->beConstructedWith('test', $formatter);
+        if( ! ini_get('date.timezone') )
+        {
+            date_default_timezone_set('UTC');
+        }
     }
 
     function it_is_initializable()
