@@ -22,7 +22,13 @@ composer require "pluggit/logging"
 ```
 
 ## Monolog
-This library uses Monolog logging system.  To create factory, set default channel name as first parameter and Formatter as second one.
+This library uses Monolog logging system. You need to install the library:
+
+``` bash
+composer require monolog/monolog ^1.2
+```
+
+To create factory, set default channel name as first parameter and Formatter as second one.
 ```php
 <?php
 use Cmp\Logging\Monolog\LoggingFactory;
