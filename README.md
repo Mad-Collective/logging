@@ -8,7 +8,7 @@ Add this repo to your composer.json
 
 ````json
 "repositories": {
-  "pluggit/storage": {
+  "pluggit/logging": {
     "type": "vcs",
     "url": "git@github.com:CMProductions/logging.git"
   }
