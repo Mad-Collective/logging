@@ -3,7 +3,6 @@
 namespace spec\Cmp\Logging\Monolog\Handler;
 
 use Monolog\Formatter\FormatterInterface;
-use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
