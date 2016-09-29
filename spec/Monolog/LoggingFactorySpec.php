@@ -16,7 +16,7 @@ class LoggingFactorySpec extends ObjectBehavior
 {
     function let(FormatterInterface $formatter)
     {
-        $this->beConstructedWith('test', $formatter);
+        $this->beConstructedWith('test', 'error', $formatter);
         if( ! ini_get('date.timezone') )
         {
             date_default_timezone_set('UTC');
@@ -36,7 +36,7 @@ class LoggingFactorySpec extends ObjectBehavior
     
     function it_should_return_handler(HandlerBuilderInterface $handlerBuilder, HandlerInterface $handler, FormatterInterface $formatter)
     {
-        $this->beConstructedWith('test', $formatter);
+        $this->beConstructedWith('test', 'error', $formatter);
         $channelName = 'test';
         $handlerBuilder->build($channelName, $formatter, [])->willReturn($handler);
         $this->addHandlerBuilder($handlerBuilder);
@@ -45,7 +45,7 @@ class LoggingFactorySpec extends ObjectBehavior
 
     function it_should_return_many_handlers(RotatingFileHandlerBuilder $rotatingFileHandlerBuilder, SyslogUdpHandlerBuilder $syslogUdpHandlerBuilder, RotatingFileHandler $rotatingFileHandler, FormatterInterface $formatter)
     {
-        $this->beConstructedWith('test', $formatter);
+        $this->beConstructedWith('test', 'error', $formatter);
         $channelName = 'test';
         $rotatingFileHandlerBuilder->build($channelName, $formatter, [])->willReturn($rotatingFileHandler);
         $syslogUdpHandlerBuilder->build($channelName, $formatter, [])->willReturn($syslogUdpHandlerBuilder);

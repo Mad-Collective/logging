@@ -16,10 +16,15 @@ class LoggingFactory implements LoggerFactoryInterface
     /**
      * @var string
      */
-    private $defaultChannel = '';
+    private $defaultChannel;
 
     /**
-     * @var array
+     * @var string
+     */
+    private $errorChannel;
+
+    /**
+     * @var Logger[]
      */
     private $loggerChannels = [];
 
@@ -47,12 +52,14 @@ class LoggingFactory implements LoggerFactoryInterface
      * LoggingFactory constructor.
      *
      * @param string             $defaultChannel
+     * @param string             $errorChannel
      * @param FormatterInterface $formatter
      */
-    public function __construct($defaultChannel = 'default', FormatterInterface $formatter)
+    public function __construct($defaultChannel, $errorChannel, FormatterInterface $formatter)
     {
         $this->defaultChannel = $defaultChannel;
         $this->formatter = $formatter;
+        $this->errorChannel = $errorChannel;
     }
 
 
@@ -87,7 +94,12 @@ class LoggingFactory implements LoggerFactoryInterface
      */
     public function addErrorHandlerBuilder(HandlerBuilderInterface $handlerBuilder)
     {
-        $this->errorHandlerBuilders[] = $handlerBuilder;
+        $handler = $handlerBuilder->build($this->errorChannel, $this->formatter, $this->processors);
+        if (!isset($this->loggerChannels[$this->errorChannel])) {
+            $this->loggerChannels[$this->errorChannel] = new Logger($this->errorChannel, [$handler]);
+        } else {
+            $this->loggerChannels[$this->errorChannel]->pushHandler($handler);
+        }
     }
 
     /**
@@ -136,13 +148,6 @@ class LoggingFactory implements LoggerFactoryInterface
 
         foreach ($this->handlerBuilders as $handlerBuilder) {
             $handler = $handlerBuilder->build($channel, $this->formatter, $this->processors);
-            $handlers[] = $handler;
-        }
-        
-        foreach ($this->errorHandlerBuilders as $errorHandlerBuilder)
-        {
-            $handler = $errorHandlerBuilder->build($channel, $this->formatter, $this->processors);
-            $handler->setLevel(Logger::ERROR);
             $handlers[] = $handler;
         }
 

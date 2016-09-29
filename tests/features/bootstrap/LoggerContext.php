@@ -29,7 +29,7 @@ class LoggerContext implements Context
      */
     public function __construct()
     {
-        $this->logger = new LoggingFactory('wellhello', new ElasticSearchFormatter(true));
+        $this->logger = new LoggingFactory('wellhello', 'error', new ElasticSearchFormatter(true));
         $this->udpSocket = new UdpSocketStub('127.0.0.1', 10);
         if( ! ini_get('date.timezone') )
         {
@@ -62,16 +62,16 @@ class LoggerContext implements Context
     }
 
     /**
-     * @Then I should log into file :log
+     * @Then I should log into file :log in :channel channel
      */
-    public function iShouldLogIntoFile($log)
+    public function iShouldLogIntoFile($log, $channel)
     {
-        $content = $this->getLogFileContent('/tmp/log', 'Y-m-d', '{channel}.log', '{date}_{filename}', 'test_channel');
+        $content = $this->getLogFileContent('/tmp/log', 'Y-m-d', '{channel}.log', '{date}_{filename}', $channel);
         $content = json_decode($content[0]);
         if ($content->message != $log) {
             throw new RuntimeException("The does not contain log");
         }
-        $this->removeLogFile('/tmp/log', 'Y-m-d', '{channel}.log', '{date}_{filename}', 'test_channel');
+        $this->removeLogFile('/tmp/log', 'Y-m-d', '{channel}.log', '{date}_{filename}', $channel);
     }
 
     /**
@@ -129,7 +129,7 @@ class LoggerContext implements Context
      */
     public function iLogAnError($log)
     {
-        $this->logger->get('test_channel')->error($log);
+        $this->logger->get('error')->error($log);
     }
 
     /**
@@ -137,7 +137,7 @@ class LoggerContext implements Context
      */
     public function iShouldHaveOnlyLogInTheFile($number)
     {
-        $content = $this->getLogFileContent('/tmp/log', 'Y-m-d', '{channel}.log', '{date}_{filename}', 'test_channel');
+        $content = $this->getLogFileContent('/tmp/log', 'Y-m-d', '{channel}.log', '{date}_{filename}', 'error');
         if ($number != count($content)) {
             throw new RuntimeException("Log does not contain exactly  ".$number." logs");
         }
