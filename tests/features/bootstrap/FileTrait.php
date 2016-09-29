@@ -11,12 +11,26 @@ namespace features\Cmp\Logging;
 
 trait FileTrait
 {
+    /**
+     * @param $path
+     * @param $dateFormat
+     * @param $filename
+     * @param $fileFormat
+     * @param $channelName
+     *
+     * @return array
+     */
     protected function getLogFileContent($path, $dateFormat, $filename, $fileFormat, $channelName)
     {
         $path = $this->getLogFilePath($path, $dateFormat, $filename, $fileFormat, $channelName);
         return $this->getFileContent($path);
     }
 
+    /**
+     * @param $path
+     *
+     * @return array
+     */
     protected function getFileContent($path)
     {
         $lines = [];
@@ -32,12 +46,26 @@ trait FileTrait
         return $lines;
     }
 
+    /**
+     * @param $path
+     * @param $dateFormat
+     * @param $filename
+     * @param $fileFormat
+     * @param $channelName
+     *
+     * @return bool
+     */
     protected function removeLogFile($path, $dateFormat, $filename, $fileFormat, $channelName)
     {
         $path = $this->getLogFilePath($path, $dateFormat, $filename, $fileFormat, $channelName);
         return $this->removeFile($path);
     }
 
+    /**
+     * @param $path
+     *
+     * @return bool
+     */
     protected function removeFile($path)
     {
         if (file_exists($path)) {
@@ -45,6 +73,15 @@ trait FileTrait
         }
     }
 
+    /**
+     * @param $path
+     * @param $dateFormat
+     * @param $filename
+     * @param $fileFormat
+     * @param $channelName
+     *
+     * @return string
+     */
     protected function getLogFilePath($path, $dateFormat, $filename, $fileFormat, $channelName)
     {
         $filename = str_replace('{channel}', $channelName, $filename);

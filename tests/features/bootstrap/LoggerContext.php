@@ -14,11 +14,20 @@ use RuntimeException;
 class LoggerContext implements Context
 {
     use FileTrait;
-    use SyslogUdpTrait;
 
+    /**
+     * @var LoggingFactory
+     */
     protected $logger;
+
+    /**
+     * @var UdpSocketStub
+     */
     protected $udpSocket;
 
+    /**
+     * LoggerContext constructor.
+     */
     public function __construct()
     {
         $this->logger = new LoggingFactory('wellhello', new JsonFormatter(true));
