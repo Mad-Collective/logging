@@ -2,6 +2,25 @@
 
 Logging is a logger factory system, which gives you ability to changer logger easily.
 
+## Instalation
+
+Add this repo to your composer.json
+
+````json
+"repositories": {
+  "pluggit/storage": {
+    "type": "vcs",
+    "url": "git@github.com:CMProductions/logging.git"
+  }
+}
+````
+
+Then require it as usual:
+
+``` bash
+composer require "pluggit/logging"
+```
+
 ## Monolog
 This library uses Monolog logging system.  To create factory, set default channel name as first parameter and Formatter as second one.
 ```php
