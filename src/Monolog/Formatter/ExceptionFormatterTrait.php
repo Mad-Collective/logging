@@ -1,6 +1,8 @@
 <?php
 namespace Cmp\Logging\Monolog\Formatter;
 
+use Cmp\Logging\Monolog\Exception\LoggableException;
+
 /**
  * Class ExceptionFormatterTrait
  *
@@ -34,6 +36,10 @@ trait ExceptionFormatterTrait
                     $data['trace'][] = json_encode($frame);
                 }
             }
+        }
+
+        if ($e instanceof LoggableException) {
+            $data['errors'] = (array) $e->getErrors();
         }
 
         return $data;
