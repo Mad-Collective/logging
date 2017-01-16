@@ -39,7 +39,7 @@ trait ExceptionFormatterTrait
         }
 
         if ($e instanceof LoggableException) {
-            $data['errors'] = implode('; ', $e->getErrors());
+            $data['errors'] = (array) $e->getErrors();
         }
 
         return $data;
