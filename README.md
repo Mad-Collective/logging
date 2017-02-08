@@ -3,7 +3,7 @@
 [![Build Status](https://scrutinizer-ci.com/g/CMProductions/logging/badges/build.png?b=master&s=e676eae45c0fea0a0da4827bf03eecf796ab40d7)](https://scrutinizer-ci.com/g/CMProductions/logging/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/CMProductions/logging/badges/quality-score.png?b=master&s=294d50bdc47ca9a1454758fda05bb5a3a19a0dbe)](https://scrutinizer-ci.com/g/CMProductions/logging/?branch=master)
 
-Logging is a logger factory system, which gives you ability to changer logger easily.
+_Logging_ gives you a simple abstraction compatible with [PSR-3 logger interface](http://www.php-fig.org/psr/psr-3/) that you can connect to a different backend to customize your logging needs
 
 ## Instalation
 
@@ -25,7 +25,7 @@ composer require "pluggit/logging"
 ```
 
 ## Monolog
-This library uses Monolog logging system. You need to install the library:
+This library provides [Monolog](https://github.com/Seldaek/monolog) as its main logging backend. You will need to install the library manually:
 
 ``` bash
 composer require monolog/monolog ^1.2
@@ -39,11 +39,12 @@ use Monolog\Formatter\JsonFormatter(true);
 $logger = new LoggingFactory('wellhello', 'error_channel', new JsonFormatter(true));
 ```
 ## Handlers
+The library provides a factory to ease the addition of some handlers to the logger objects, 
+
 ### Built in handlers
 
-- RotatingFileHandler
-
-
+- RotatingFileHandler  
+This handler will write the log messages to a file, rotating the name depending on the given date format
 ```php
 <?php
 use Cmp\Logging\Monolog\LoggingFactory;
@@ -51,16 +52,19 @@ use Monolog\Formatter\JsonFormatter(true);
 use Monolog\Logger;
 
 $logger = new LoggingFactory('wellhello', 'error_channel', new JsonFormatter(true));
-//addRotatingFileHandlerBuilder(directory path, date format, max files number, file name, file name format, level)
+
+// addRotatingFileHandlerBuilder(directory path, date format, max files number, file name, file name format, level)
 $logger->addRotatingFileHandlerBuilder('directory/path','Y-m-d', 14, '{channel}.log', '{date}_{filename}', Logger::ERROR);
 ```
-- SyslogUdpHandler
+- SyslogUdpHandler  
+This handler will send a UDP packet with the log message, useful to send messages to 3rd party log platforms or storage servers (like ElasticSearch)
 ```php
 <?php
 use Cmp\Logging\Monolog\LoggingFactory;
 use Monolog\Formatter\JsonFormatter(true);
 
 $logger = new LoggingFactory('wellhello', 'error_channel', new JsonFormatter(true));
+
 //addSyslogUdpHandlerBuilder(syslog UDP Host, syslog UDP Port, level)
 $logger->addSyslogUdpHandlerBuilder('12.34.56.78', '90', Logger::ERROR);
 ```
