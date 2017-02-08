@@ -1,5 +1,8 @@
 # Pluggit Logging
 
+[![Build Status](https://scrutinizer-ci.com/g/CMProductions/logging/badges/build.png?b=master&s=e676eae45c0fea0a0da4827bf03eecf796ab40d7)](https://scrutinizer-ci.com/g/CMProductions/logging/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/CMProductions/logging/badges/quality-score.png?b=master&s=294d50bdc47ca9a1454758fda05bb5a3a19a0dbe)](https://scrutinizer-ci.com/g/CMProductions/logging/?branch=master)
+
 Logging is a logger factory system, which gives you ability to changer logger easily.
 
 ## Instalation
