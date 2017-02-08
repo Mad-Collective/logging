@@ -14,3 +14,17 @@ services:
         - ../../:/app/logging
       working_dir: /app/logging
       command: make test
+
+  php55:
+      build: ./55
+      volumes:
+        - ../../:/app/logging
+      working_dir: /app/logging
+      command: make test
+
+  php54:
+      build: ./54
+      volumes:
+        - ../../:/app/logging
+      working_dir: /app/logging
+      command: make test
