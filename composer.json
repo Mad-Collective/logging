@@ -1,6 +1,6 @@
 {
   "name": "pluggit/logging",
-  "description": "Logging abstraction layer",
+  "description": "Logging provides a thin PSR-7 interface abstraction to connect any logging facility behind it.",
   "require": {
     "php": "^5.4|^7.0",
     "psr/log": "^1.0"

@@ -5,20 +5,11 @@
 
 _Logging_ gives you a simple abstraction compatible with [PSR-3 logger interface](http://www.php-fig.org/psr/psr-3/) that you can connect to a different backend to customize your logging needs
 
-## Instalation
+Logging provides a thin PSR-7 interface abstraction to connect any logging facility behind it.
 
-Add this repo to your composer.json
+## Installation
 
-````json
-"repositories": {
-  "pluggit/logging": {
-    "type": "vcs",
-    "url": "git@github.com:CMProductions/logging.git"
-  }
-}
-````
-
-Then require it as usual:
+Require the library as usual:
 
 ``` bash
 composer require "pluggit/logging"
