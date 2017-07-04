@@ -39,7 +39,7 @@ class ElasticSearchFormatterSpec extends ObjectBehavior
         $this->format($record)->shouldBeString();
     }
 
-    function it_should__format_unknown_exceptions()
+    function it_should_format_unknown_exceptions()
     {
         $record = [
             'context' => [
