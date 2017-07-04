@@ -1,8 +1,17 @@
+filter:
+    paths: ["src/*"]
+    excluded_paths:
+      - "bin/"
+      - "spec/"
+
+checks:
+    php:
+        code_rating: true
+        duplication: true
+
 build:
     environment:
-        php: '5.4.41'
+        docker: true
     tests:
-        before:
-            - 'composer install'
         override:
-            - 'make tests'
+            - 'make unit'

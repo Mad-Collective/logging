@@ -9,7 +9,7 @@ dev:
 	@docker-compose -p ${COMPONENT} -f ops/docker/docker-compose.yml up
 
 nodev:
-	@docker-compose -p ${COMPONENT} -f ops/docker/docker-compose.yml rm -fa > /dev/null
+	@docker-compose -p ${COMPONENT} -f ops/docker/docker-compose.yml rm -f > /dev/null
 ifeq ($(IMAGES),true)
 	@docker rmi ${COMPONENT}_${CONTAINER}
 endif
