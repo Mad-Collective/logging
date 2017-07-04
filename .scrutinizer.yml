@@ -5,4 +5,5 @@ build:
         before:
             - 'composer install'
         override:
-            - 'make tests'
+            - 'make test'
+            - 'vendor/phpspec/phpspec/bin/phpspec run'
