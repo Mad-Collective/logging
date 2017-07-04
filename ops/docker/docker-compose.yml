@@ -6,24 +6,3 @@ services:
       volumes:
         - ../../:/app/logging
       working_dir: /app/logging
-      command: make test
-      environment:
-        - PHP_VERSION=php-7.1
-
-  php-5.6:
-      build: phpfarm
-      volumes:
-        - ../../:/app/logging
-      working_dir: /app/logging
-      command: make test
-      environment:
-        - PHP_VERSION=php-5.6
-
-  php-5.5:
-      build: phpfarm
-      volumes:
-        - ../../:/app/logging
-      working_dir: /app/logging
-      command: make test
-      environment:
-        - PHP_VERSION=php-5.5
