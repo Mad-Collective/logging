@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-  php-7.1:
+  phpfarm:
       build: phpfarm
       volumes:
         - ../../:/app/logging
