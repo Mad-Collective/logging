@@ -1,30 +1,8 @@
 version: '2'
 
 services:
-  php7:
-    build: ./7
-    volumes:
-      - ../../:/app/logging
-    working_dir: /app/logging
-    command: make test
-
-  php56:
-      build: ./56
+  phpfarm:
+      build: phpfarm
       volumes:
         - ../../:/app/logging
       working_dir: /app/logging
-      command: make test
-
-  php55:
-      build: ./55
-      volumes:
-        - ../../:/app/logging
-      working_dir: /app/logging
-      command: make test
-
-  php54:
-      build: ./54
-      volumes:
-        - ../../:/app/logging
-      working_dir: /app/logging
-      command: make test

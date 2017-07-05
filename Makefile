@@ -6,10 +6,10 @@ APP_ROOT := /app/logging
 all: dev nodev
 
 dev:
-	@docker-compose -p ${COMPONENT} -f ops/docker/docker-compose.yml up
+	@docker-compose -p ${COMPONENT} -f ops/docker/docker-compose.yml up -d
 
 nodev:
-	@docker-compose -p ${COMPONENT} -f ops/docker/docker-compose.yml rm -fa > /dev/null
+	@docker-compose -p ${COMPONENT} -f ops/docker/docker-compose.yml rm -f > /dev/null
 ifeq ($(IMAGES),true)
 	@docker rmi ${COMPONENT}_${CONTAINER}
 endif
@@ -20,10 +20,10 @@ deps:
 	@composer install --no-interaction
 
 unit:
-	@${APP_ROOT}/ops/scripts/unit.sh
+	@docker exec -t ${COMPONENT}_${CONTAINER}_1 ${APP_ROOT}/ops/scripts/unit.sh ${PHP_VERSION}
 
 integration:
-	@${APP_ROOT}/ops/scripts/integration.sh
+	@docker exec -t ${COMPONENT}_${CONTAINER}_1 ${APP_ROOT}/ops/scripts/integration.sh ${PHP_VERSION}
 
 ps: status
 status:
