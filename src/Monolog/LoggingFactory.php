@@ -151,6 +151,6 @@ class LoggingFactory implements LoggerFactoryInterface
             $handlers[] = $handler;
         }
 
-        return new Logger($channel, $handlers);
+        return new SilentLogger($channel, $handlers);
     }
 }
