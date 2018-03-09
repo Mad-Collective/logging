@@ -7,7 +7,7 @@ use Cmp\Logging\Monolog\Handler\RotatingFileHandlerBuilder;
 use Cmp\Logging\Monolog\Handler\SyslogUdpHandlerBuilder;
 use Cmp\Logging\Monolog\Logger\SilentLogger;
 use Monolog\Formatter\FormatterInterface;
-use Monolog\Handler\AbstractHandler;
+use Monolog\Formatter\JsonFormatter;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
@@ -53,10 +53,14 @@ class LoggingFactory implements LoggerFactoryInterface
      *
      * @param string             $defaultChannel
      * @param string             $errorChannel
-     * @param FormatterInterface $formatter
+     * @param FormatterInterface $formatter      Defaults to JsonFormatter
      */
-    public function __construct($defaultChannel, $errorChannel, FormatterInterface $formatter)
+    public function __construct($defaultChannel, $errorChannel = 'error', FormatterInterface $formatter = null)
     {
+        if (is_null($formatter)) {
+            $formatter = new JsonFormatter();
+        }
+
         $this->defaultChannel = $defaultChannel;
         $this->formatter = $formatter;
         $this->errorChannel = $errorChannel;

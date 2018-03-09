@@ -26,7 +26,7 @@ To create factory, set default channel name as first parameter and Formatter as 
 ```php
 <?php
 use Cmp\Logging\Monolog\LoggingFactory;
-use Monolog\Formatter\JsonFormatter(true);
+use Monolog\Formatter\JsonFormatter;
 $logger = new LoggingFactory('wellhello', 'error_channel', new JsonFormatter(true));
 ```
 ## Handlers
@@ -39,7 +39,7 @@ This handler will write the log messages to a file, rotating the name depending 
 ```php
 <?php
 use Cmp\Logging\Monolog\LoggingFactory;
-use Monolog\Formatter\JsonFormatter(true);
+use Monolog\Formatter\JsonFormatter;
 use Monolog\Logger;
 
 $logger = new LoggingFactory('wellhello', 'error_channel', new JsonFormatter(true));
@@ -52,7 +52,7 @@ This handler will send a UDP packet with the log message, useful to send message
 ```php
 <?php
 use Cmp\Logging\Monolog\LoggingFactory;
-use Monolog\Formatter\JsonFormatter(true);
+use Monolog\Formatter\JsonFormatter;
 
 $logger = new LoggingFactory('wellhello', 'error_channel', new JsonFormatter(true));
 
@@ -84,7 +84,7 @@ The handler builder should be added using addHandlerBuilder method:
 ```php
 <?php
 use Cmp\Logging\Monolog\LoggingFactory;
-use Monolog\Formatter\JsonFormatter(true);
+use Monolog\Formatter\JsonFormatter;
 use Customer\Namespace\CustomHandlerBuilder;
 
 $logger = new LoggingFactory('wellhello', 'error_channel', new JsonFormatter(true));
@@ -96,7 +96,7 @@ To add default error handler use addErrorHandlerBuilder method.
 ```php
 <?php
 use Cmp\Logging\Monolog\LoggingFactory;
-use Monolog\Formatter\JsonFormatter(true);
+use Monolog\Formatter\JsonFormatter;
 use Customer\Namespace\CustomHandlerBuilder;
 
 $logger = new LoggingFactory('wellhello', 'error_channel', new JsonFormatter(true));
@@ -107,7 +107,7 @@ $logger->addErrorHandlerBuilder($handlerBuilder);
 ```php
 <?php
 use Cmp\Logging\Monolog\LoggingFactory;
-use Monolog\Formatter\JsonFormatter(true);
+use Monolog\Formatter\JsonFormatter;
 use Customer\Namespace\CustomHandlerBuilder;
 use Monolog\Logger\GitProcessor;
 
