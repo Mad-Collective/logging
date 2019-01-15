@@ -66,11 +66,19 @@ class LoggingFactorySpec extends ObjectBehavior
         $this->get('test')->getHandlers()[0]->shouldBeAnInstanceOf('Monolog\Handler\SyslogUdpHandler');
     }
 
-    function it_should_build_two_handlers()
+    function it_should_build_stdout_handler()
+    {
+        $this->addStdoutHandlerBuilder(Logger::NOTICE);
+        $this->get('test')->getHandlers()[0]->shouldBeAnInstanceOf('Monolog\Handler\StreamHandler');
+    }
+
+    function it_should_build_all_handlers()
     {
         $this->addSyslogUdpHandlerBuilder('123.34.4.45', 89, Logger::NOTICE);
         $this->addRotatingFileHandlerBuilder('log', 'Y-m-d', '{channel}.log', 14, '{date}_{filename}', Logger::NOTICE);
+        $this->addStdoutHandlerBuilder(Logger::NOTICE);
         $this->get('test')->getHandlers()[0]->shouldBeAnInstanceOf('Monolog\Handler\SyslogUdpHandler');
         $this->get('test')->getHandlers()[1]->shouldBeAnInstanceOf('Monolog\Handler\RotatingFileHandler');
+        $this->get('test')->getHandlers()[2]->shouldBeAnInstanceOf('Monolog\Handler\StreamHandler');
     }
 }

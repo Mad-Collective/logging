@@ -4,6 +4,7 @@ namespace Cmp\Logging\Monolog;
 use Cmp\Logging\LoggerFactoryInterface;
 use Cmp\Logging\Monolog\Handler\HandlerBuilderInterface;
 use Cmp\Logging\Monolog\Handler\RotatingFileHandlerBuilder;
+use Cmp\Logging\Monolog\Handler\StdoutHandlerBuilder;
 use Cmp\Logging\Monolog\Handler\SyslogUdpHandlerBuilder;
 use Cmp\Logging\Monolog\Logger\SilentLogger;
 use Monolog\Formatter\FormatterInterface;
@@ -89,6 +90,14 @@ class LoggingFactory implements LoggerFactoryInterface
     public function addSyslogUdpHandlerBuilder($syslogUdpHost, $syslogUdpPort, $level)
     {
         $this->handlerBuilders[] = new SyslogUdpHandlerBuilder($syslogUdpHost, $syslogUdpPort, $level);
+    }
+
+    /**
+     * @param $level
+     */
+    public function addStdoutHandlerBuilder($level)
+    {
+        $this->handlerBuilders[] = new StdoutHandlerBuilder($level);
     }
 
     /**
