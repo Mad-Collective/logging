@@ -2,6 +2,7 @@
 namespace Cmp\Logging\Monolog\Handler;
 
 use Monolog\Formatter\FormatterInterface;
+use Monolog\Handler\AbstractHandler;
 use Monolog\Handler\RotatingFileHandler;
 
 class RotatingFileHandlerBuilder implements HandlerBuilderInterface
@@ -46,8 +47,14 @@ class RotatingFileHandlerBuilder implements HandlerBuilderInterface
      * @param $fileNameFormat
      * @param $level
      */
-    public function __construct($directoryPath, $dateFormat, $maxFiles, $fileName, $fileNameFormat, $level)
-    {
+    public function __construct(
+        string $directoryPath,
+        string $dateFormat,
+        int $maxFiles,
+        string $fileName,
+        string $fileNameFormat,
+        int $level
+    ) {
         $this->dateFormat = $dateFormat;
         $this->maxFiles = $maxFiles;
         $this->fileName = $fileName;
@@ -60,7 +67,7 @@ class RotatingFileHandlerBuilder implements HandlerBuilderInterface
     /**
      * @inheritDoc
      */
-    public function build($channelName, FormatterInterface $formatter, $processors = [])
+    public function build($channelName, FormatterInterface $formatter, $processors = []): AbstractHandler
     {
         $fileName = $this->directoryPath.'/'.str_replace('{channel}', $channelName, $this->fileName);
         $handler = new RotatingFileHandler($fileName, $this->maxFiles);

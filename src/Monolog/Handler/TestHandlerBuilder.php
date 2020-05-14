@@ -2,6 +2,7 @@
 namespace Cmp\Logging\Monolog\Handler;
 
 use Monolog\Formatter\FormatterInterface;
+use Monolog\Handler\AbstractHandler;
 use Monolog\Handler\TestHandler;
 
 class TestHandlerBuilder implements HandlerBuilderInterface
@@ -14,7 +15,7 @@ class TestHandlerBuilder implements HandlerBuilderInterface
     /**
      * @inheritDoc
      */
-    public function build($channelName, FormatterInterface $formatter, $processors = [])
+    public function build($channelName, FormatterInterface $formatter, $processors = []): AbstractHandler
     {
         if (is_null($this->handler)) {
             $this->handler = new TestHandler();

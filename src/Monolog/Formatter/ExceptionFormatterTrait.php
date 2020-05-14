@@ -11,11 +11,11 @@ use Cmp\Logging\Monolog\Exception\LoggableException;
 trait ExceptionFormatterTrait
 {
     /**
-     * @param \Exception $e
+     * @param \Throwable $e
      *
      * @return array
      */
-    protected function normalizeException($e)
+    protected function normalizeException(\Throwable $e, int $depth = 0): array
     {
         // TODO 2.0 only check for Throwable
         if (!$e instanceof \Exception && !$e instanceof \Throwable) {

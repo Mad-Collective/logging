@@ -3,6 +3,7 @@ namespace Cmp\Logging\Monolog\Handler;
 
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Handler\AbstractHandler;
+use Monolog\Handler\HandlerInterface;
 
 interface HandlerBuilderInterface
 {
@@ -13,5 +14,5 @@ interface HandlerBuilderInterface
      *
      * @return AbstractHandler
      */
-    public function build($channelName, FormatterInterface $formatter, $processors = []);
+    public function build($channelName, FormatterInterface $formatter, $processors = []): AbstractHandler;
 }
