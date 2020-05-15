@@ -36,7 +36,7 @@ class StdoutHandlerBuilder implements HandlerBuilderInterface
      *
      * @throws \Exception
      */
-    public function build($channelName, FormatterInterface $formatter, $processors = [])
+    public function build($channelName, FormatterInterface $formatter, $processors = []): AbstractHandler
     {
         if (!$this->handler) {
             $this->handler = new StreamHandler("php://stdout");

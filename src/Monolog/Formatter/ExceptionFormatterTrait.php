@@ -11,17 +11,13 @@ use Cmp\Logging\Monolog\Exception\LoggableException;
 trait ExceptionFormatterTrait
 {
     /**
-     * @param \Exception $e
+     * @param \Throwable $e
+     * @param int $depth (for now will not be implemented as 0 will not give trace by default)
      *
      * @return array
      */
-    protected function normalizeException($e)
+    protected function normalizeException(\Throwable $e, int $depth = 0): array
     {
-        // TODO 2.0 only check for Throwable
-        if (!$e instanceof \Exception && !$e instanceof \Throwable) {
-            throw new \InvalidArgumentException('Exception/Throwable expected, got '.gettype($e).' / '.get_class($e));
-        }
-
         $data = array(
             'class' => get_class($e),
             'message' => $e->getMessage(),
