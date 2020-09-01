@@ -27,7 +27,7 @@ To create factory, set default channel name as first parameter and Formatter as 
 <?php
 use Cmp\Logging\Monolog\LoggingFactory;
 use Monolog\Formatter\JsonFormatter;
-$logger = new LoggingFactory('wellhello', 'error_channel', new JsonFormatter(true));
+$logger = new LoggingFactory('yoursite', 'error_channel', new JsonFormatter(true));
 ```
 ## Handlers
 The library provides a factory to ease the addition of some handlers to the logger objects, 
@@ -42,7 +42,7 @@ use Cmp\Logging\Monolog\LoggingFactory;
 use Monolog\Formatter\JsonFormatter;
 use Monolog\Logger;
 
-$logger = new LoggingFactory('wellhello', 'error_channel', new JsonFormatter(true));
+$logger = new LoggingFactory('yoursite', 'error_channel', new JsonFormatter(true));
 
 // addRotatingFileHandlerBuilder(directory path, date format, max files number, file name, file name format, level)
 $logger->addRotatingFileHandlerBuilder('directory/path','Y-m-d', 14, '{channel}.log', '{date}_{filename}', Logger::ERROR);
@@ -54,7 +54,7 @@ This handler will send a UDP packet with the log message, useful to send message
 use Cmp\Logging\Monolog\LoggingFactory;
 use Monolog\Formatter\JsonFormatter;
 
-$logger = new LoggingFactory('wellhello', 'error_channel', new JsonFormatter(true));
+$logger = new LoggingFactory('yoursite', 'error_channel', new JsonFormatter(true));
 
 //addSyslogUdpHandlerBuilder(syslog UDP Host, syslog UDP Port, level)
 $logger->addSyslogUdpHandlerBuilder('12.34.56.78', '90', Logger::ERROR);
@@ -87,7 +87,7 @@ use Cmp\Logging\Monolog\LoggingFactory;
 use Monolog\Formatter\JsonFormatter;
 use Customer\Namespace\CustomHandlerBuilder;
 
-$logger = new LoggingFactory('wellhello', 'error_channel', new JsonFormatter(true));
+$logger = new LoggingFactory('yoursite', 'error_channel', new JsonFormatter(true));
 $handlerBuilder = new CustomHandlerBuilder($param1, $param2);
 $logger->addHandlerBuilder($handlerBuilder);
 ```
@@ -99,7 +99,7 @@ use Cmp\Logging\Monolog\LoggingFactory;
 use Monolog\Formatter\JsonFormatter;
 use Customer\Namespace\CustomHandlerBuilder;
 
-$logger = new LoggingFactory('wellhello', 'error_channel', new JsonFormatter(true));
+$logger = new LoggingFactory('yoursite', 'error_channel', new JsonFormatter(true));
 $handlerBuilder = new CustomHandlerBuilder($param1, $param2);
 $logger->addErrorHandlerBuilder($handlerBuilder);
 ```
@@ -111,7 +111,7 @@ use Monolog\Formatter\JsonFormatter;
 use Customer\Namespace\CustomHandlerBuilder;
 use Monolog\Logger\GitProcessor;
 
-$logger = new LoggingFactory('wellhello', 'error_channel', new JsonFormatter(true));
+$logger = new LoggingFactory('yoursite', 'error_channel', new JsonFormatter(true));
 //addProcessor(callable $processor)
 $logger->addProcessor(new GitProcessor(Logger:DEBUG));
 ```
