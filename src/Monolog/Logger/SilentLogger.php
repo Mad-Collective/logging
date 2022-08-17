@@ -2,6 +2,7 @@
 
 namespace Cmp\Logging\Monolog\Logger;
 
+use Monolog\DateTimeImmutable;
 use Monolog\Logger;
 
 class SilentLogger extends Logger
@@ -16,11 +17,11 @@ class SilentLogger extends Logger
      * @param  array   $context The log context
      * @return Boolean Whether the record has been processed
      */
-    public function addRecord($level, $message, array $context = array())
+    public function addRecord(int $level, string $message, array $context = [], DateTimeImmutable $datetime = null): bool
     {
         try{
             $context = array_merge($this->defaultContext, $context);
-            return parent::addRecord($level, $message, $context);
+            return parent::addRecord($level, $message, $context, $datetime);
 
         } catch (\Exception $e){
             trigger_error($e, E_USER_WARNING);

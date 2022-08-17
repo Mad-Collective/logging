@@ -1,8 +1,15 @@
 version: '2'
 
 services:
-  phpfarm:
-      build: phpfarm
-      volumes:
-        - ../../:/app/logging
-      working_dir: /app/logging
+#  php80:
+#      build: ./80
+#      volumes:
+#        - ../../:/app/logging
+#      working_dir: /app/logging
+#      command: [bash, -c, "composer install && make test"]
+  php81:
+    build: ./81
+    volumes:
+      - ../../:/app/logging
+    working_dir: /app/logging
+    command: [bash, -c, "composer install && make test"]

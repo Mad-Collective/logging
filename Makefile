@@ -1,5 +1,5 @@
 COMPONENT := pluggitlogging
-CONTAINER := phpfarm
+CONTAINER := php80
 IMAGES ?= false
 APP_ROOT := /app/logging
 
@@ -20,10 +20,10 @@ deps:
 	@composer install --no-interaction
 
 unit:
-	@docker exec -t ${COMPONENT}_${CONTAINER}_1 ${APP_ROOT}/ops/scripts/unit.sh ${PHP_VERSION}
+	@${APP_ROOT}/ops/scripts/unit.sh
 
 integration:
-	@docker exec -t ${COMPONENT}_${CONTAINER}_1 ${APP_ROOT}/ops/scripts/integration.sh ${PHP_VERSION}
+	@${APP_ROOT}/ops/scripts/integration.sh
 
 ps: status
 status:

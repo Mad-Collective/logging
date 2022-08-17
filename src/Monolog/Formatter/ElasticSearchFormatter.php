@@ -17,9 +17,9 @@ class ElasticSearchFormatter extends JsonFormatter
      *
      * @param array $record A record to format
      *
-     * @return mixed The formatted record
+     * @return string The formatted record
      */
-    public function format(array $record)
+    public function format(array $record): string
     {
         $this->formatContextException($record);
         if (!empty($record['context'])) {
@@ -52,7 +52,7 @@ class ElasticSearchFormatter extends JsonFormatter
      *
      * @return string
      */
-    protected function formatBatchJson(array $records)
+    protected function formatBatchJson(array $records): string
     {
         $cleanRecords = array_map(
             function ($record) {
