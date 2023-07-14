@@ -63,7 +63,7 @@ class RotatingFileHandlerBuilder implements HandlerBuilderInterface
     public function build($channelName, FormatterInterface $formatter, $processors = [])
     {
         $fileName = $this->directoryPath.'/'.str_replace('{channel}', $channelName, $this->fileName);
-        $handler = new RotatingFileHandler($fileName, $this->maxFiles);
+        $handler = new RotatingFileHandler($fileName, (int) $this->maxFiles);
         $handler->setFilenameFormat($this->fileNameFormat, $this->dateFormat);
         $handler->setFormatter($formatter);
         $handler->setLevel($this->level);

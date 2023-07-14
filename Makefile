@@ -1,18 +1,21 @@
-COMPONENT := pluggitlogging
-CONTAINER := phpfarm
+COMPONENT := logging
+CONTAINER := phpcli
 IMAGES ?= false
 APP_ROOT := /app/logging
 
 all: dev nodev
 
 dev:
-	@docker-compose -p ${COMPONENT} -f ops/docker/docker-compose.yml up -d
+	@docker-compose -p ${COMPONENT} -f ops/docker/docker-compose.yaml up -d --build
 
 nodev:
-	@docker-compose -p ${COMPONENT} -f ops/docker/docker-compose.yml rm -f > /dev/null
+	@docker-compose -p ${COMPONENT} -f ops/docker/docker-compose.yaml rm -f > /dev/null
 ifeq ($(IMAGES),true)
 	@docker rmi ${COMPONENT}_${CONTAINER}
 endif
+
+enter:
+	@docker exec -ti ${COMPONENT}_${CONTAINER}_1 /bin/sh
 
 test: unit integration
 
@@ -27,10 +30,10 @@ integration:
 
 ps: status
 status:
-	@docker-compose -p ${COMPONENT} -f ops/docker/docker-compose.yml ps
+	@docker-compose -p ${COMPONENT} -f ops/docker/docker-compose.yaml ps
 
 logs:
-	@docker-compose -p ${COMPONENT} -f ops/docker/docker-compose.yml logs
+	@docker-compose -p ${COMPONENT} -f ops/docker/docker-compose.yaml logs
 
 tag: # List last tag for this repo
 	@git tag -l | sort -r |head -1

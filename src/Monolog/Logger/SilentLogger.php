@@ -11,12 +11,18 @@ class SilentLogger extends Logger
     /**
      * Adds a log record.
      *
-     * @param  integer $level   The logging level
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param int $level
+     * @param string $message
+     * @param array $context
+     * @param \DateTimeImmutable|null $datetime
      * @return Boolean Whether the record has been processed
      */
-    public function addRecord($level, $message, array $context = array())
+    public function addRecord(
+        int $level,
+        string $message,
+        array $context = array(),
+        \DateTimeImmutable $datetime = null
+    ): bool
     {
         try{
             $context = array_merge($this->defaultContext, $context);

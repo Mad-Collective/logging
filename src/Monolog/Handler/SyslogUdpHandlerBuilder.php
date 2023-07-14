@@ -50,7 +50,7 @@ class SyslogUdpHandlerBuilder implements HandlerBuilderInterface
             if (empty($this->syslogUdpHost)) {
                 return false;
             }
-            $this->syslogUdpHandler = new SyslogUdpHandler($this->syslogUdpHost, $this->syslogUdpPort);
+            $this->syslogUdpHandler = new SyslogUdpHandler($this->syslogUdpHost, (int) $this->syslogUdpPort);
             $this->syslogUdpHandler->setLevel($this->level);
             $this->syslogUdpHandler->setFormatter($formatter);
             array_map([$this->syslogUdpHandler, 'pushProcessor'], $processors);

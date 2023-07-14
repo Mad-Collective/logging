@@ -2,4 +2,4 @@ default:
     suites:
         default:
             contexts: [features\Cmp\Logging\LoggerContext]
-            paths: [%paths.base%/tests/features]
+            paths: [./tests/features]
