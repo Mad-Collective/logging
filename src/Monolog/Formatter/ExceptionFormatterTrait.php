@@ -15,7 +15,7 @@ trait ExceptionFormatterTrait
      *
      * @return array
      */
-    protected function normalizeException($e)
+    protected function normalizeException($e, int $depth = 0): array
     {
         // TODO 2.0 only check for Throwable
         if (!$e instanceof \Exception && !$e instanceof \Throwable) {

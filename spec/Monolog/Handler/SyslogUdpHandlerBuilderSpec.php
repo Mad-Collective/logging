@@ -11,7 +11,7 @@ class SyslogUdpHandlerBuilderSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith('log', 'Y-m-d', '{channel}.log', 14, '{date}_{filename}', Logger::NOTICE);
+        $this->beConstructedWith('host', '80', 100);
         if( ! ini_get('date.timezone') )
         {
             date_default_timezone_set('UTC');

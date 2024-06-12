@@ -8,6 +8,7 @@ use Cmp\Logging\Monolog\Handler\SyslogUdpHandlerBuilder;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\RotatingFileHandler;
+use Monolog\Handler\SyslogUdpHandler;
 use Monolog\Logger;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -43,15 +44,20 @@ class LoggingFactorySpec extends ObjectBehavior
         $this->get($channelName)->getHandlers()->shouldReturn([$handler]);
     }
 
-    function it_should_return_many_handlers(RotatingFileHandlerBuilder $rotatingFileHandlerBuilder, SyslogUdpHandlerBuilder $syslogUdpHandlerBuilder, RotatingFileHandler $rotatingFileHandler, FormatterInterface $formatter)
-    {
+    function it_should_return_many_handlers(
+        RotatingFileHandlerBuilder $rotatingFileHandlerBuilder,
+        SyslogUdpHandlerBuilder $syslogUdpHandlerBuilder,
+        RotatingFileHandler $rotatingFileHandler,
+        SyslogUdpHandler $syslogUdpHandler,
+        FormatterInterface $formatter
+    ) {
         $this->beConstructedWith('test', 'error', $formatter);
         $channelName = 'test';
         $rotatingFileHandlerBuilder->build($channelName, $formatter, [])->willReturn($rotatingFileHandler);
-        $syslogUdpHandlerBuilder->build($channelName, $formatter, [])->willReturn($syslogUdpHandlerBuilder);
+        $syslogUdpHandlerBuilder->build($channelName, $formatter, [])->willReturn($syslogUdpHandler);
         $this->addHandlerBuilder($rotatingFileHandlerBuilder);
         $this->addHandlerBuilder($syslogUdpHandlerBuilder);
-        $this->get($channelName)->getHandlers()->shouldReturn([$rotatingFileHandler, $syslogUdpHandlerBuilder]);
+        $this->get($channelName)->getHandlers()->shouldReturn([$rotatingFileHandler, $syslogUdpHandler]);
     }
     
     function it_should_build_rotating_file_handler()
