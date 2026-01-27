@@ -21,7 +21,7 @@ class SilentLogger extends Logger
         int $level,
         string $message,
         array $context = array(),
-        \DateTimeImmutable $datetime = null
+        ?\DateTimeImmutable $datetime = null
     ): bool
     {
         try{
