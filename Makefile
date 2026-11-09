@@ -11,22 +11,25 @@ dev:
 nodev:
 	@docker-compose -p ${COMPONENT} -f ops/docker/docker-compose.yaml rm -f > /dev/null
 ifeq ($(IMAGES),true)
-	@docker rmi ${COMPONENT}_${CONTAINER}
+	@docker rmi ${COMPONENT}-${CONTAINER}
 endif
 
 enter:
-	@docker exec -ti ${COMPONENT}_${CONTAINER}_1 /bin/sh
+	@docker exec -ti ${COMPONENT}-${CONTAINER}-1 /bin/sh
 
 test: unit integration
 
 deps:
-	@composer install --no-interaction
+	@docker-compose -p ${COMPONENT} -f ops/docker/docker-compose.yaml exec -T ${CONTAINER} \
+	 composer install --no-interaction
 
 unit:
-	@docker exec -t ${COMPONENT}_${CONTAINER}_1 ${APP_ROOT}/ops/scripts/unit.sh ${PHP_VERSION}
+	@docker-compose -p ${COMPONENT} -f ops/docker/docker-compose.yaml exec -T ${CONTAINER} \
+	 ${APP_ROOT}/ops/scripts/unit.sh ${PHP_VERSION}
 
 integration:
-	@docker exec -t ${COMPONENT}_${CONTAINER}_1 ${APP_ROOT}/ops/scripts/integration.sh ${PHP_VERSION}
+	@docker-compose -p ${COMPONENT} -f ops/docker/docker-compose.yaml exec -T ${CONTAINER} \
+	 ${APP_ROOT}/ops/scripts/integration.sh ${PHP_VERSION}
 
 ps: status
 status:

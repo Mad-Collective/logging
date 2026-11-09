@@ -1,7 +1,10 @@
-FROM php:8.0-fpm-alpine
+FROM php:8.4-fpm-alpine
 
-RUN docker-php-ext-install -j$(nproc) \
-        sockets
+RUN apk add --no-cache --virtual .build-deps \
+        linux-headers \
+    && docker-php-ext-install -j$(nproc) \
+        sockets \
+    && apk del .build-deps
 
 RUN apk add --no-cache \
         curl

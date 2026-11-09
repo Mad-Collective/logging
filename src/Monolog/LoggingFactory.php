@@ -14,49 +14,34 @@ use Psr\Log\LoggerInterface;
 
 class LoggingFactory implements LoggerFactoryInterface
 {
-    /**
-     * @var string
-     */
-    private $defaultChannel;
-
-    /**
-     * @var string
-     */
-    private $errorChannel;
+    private string $defaultChannel;
+    private string $errorChannel;
 
     /**
      * @var Logger[]
      */
-    private $loggerChannels = [];
+    private array $loggerChannels = [];
 
     /**
      * @var HandlerBuilderInterface[]
      */
-    private $handlerBuilders = [];
+    private array $handlerBuilders = [];
 
     /**
      * @var HandlerBuilderInterface[]
      */
-    private $errorHandlerBuilders = [];
-
-    /**
-     * @var FormatterInterface
-     */
-    private $formatter;
-
-    /**
-     * @var array
-     */
-    private $processors = [];
+    private array $errorHandlerBuilders = [];
+    private FormatterInterface $formatter;
+    private array $processors = [];
 
     /**
      * LoggingFactory constructor.
      *
-     * @param string             $defaultChannel
-     * @param string             $errorChannel
-     * @param FormatterInterface $formatter      Defaults to JsonFormatter
+     * @param string $defaultChannel
+     * @param string $errorChannel
+     * @param FormatterInterface|null $formatter Defaults to JsonFormatter
      */
-    public function __construct($defaultChannel, $errorChannel = 'error', FormatterInterface $formatter = null)
+    public function __construct(string $defaultChannel, string $errorChannel = 'error', ?FormatterInterface $formatter = null)
     {
         if (is_null($formatter)) {
             $formatter = new JsonFormatter();
@@ -76,7 +61,7 @@ class LoggingFactory implements LoggerFactoryInterface
      * @param $filenameFormat
      * @param $level
      */
-    public function addRotatingFileHandlerBuilder($directoryPath, $dateFormat, $maxFiles, $fileName, $filenameFormat, $level)
+    public function addRotatingFileHandlerBuilder($directoryPath, $dateFormat, $maxFiles, $fileName, $filenameFormat, $level): void
     {
         $handler = new RotatingFileHandlerBuilder($directoryPath, $dateFormat, $maxFiles, $fileName, $filenameFormat, $level);
         $this->handlerBuilders[] = $handler;
@@ -87,7 +72,7 @@ class LoggingFactory implements LoggerFactoryInterface
      * @param $syslogUdpPort
      * @param $level
      */
-    public function addSyslogUdpHandlerBuilder($syslogUdpHost, $syslogUdpPort, $level)
+    public function addSyslogUdpHandlerBuilder($syslogUdpHost, $syslogUdpPort, $level): void
     {
         $this->handlerBuilders[] = new SyslogUdpHandlerBuilder($syslogUdpHost, $syslogUdpPort, $level);
     }
@@ -95,7 +80,7 @@ class LoggingFactory implements LoggerFactoryInterface
     /**
      * @param $level
      */
-    public function addStdoutHandlerBuilder($level)
+    public function addStdoutHandlerBuilder($level): void
     {
         $this->handlerBuilders[] = new StdoutHandlerBuilder($level);
     }
@@ -103,9 +88,9 @@ class LoggingFactory implements LoggerFactoryInterface
     /**
      * @param HandlerBuilderInterface $handlerBuilder
      *
-     * @return mixed
+     * @return void
      */
-    public function addErrorHandlerBuilder(HandlerBuilderInterface $handlerBuilder)
+    public function addErrorHandlerBuilder(HandlerBuilderInterface $handlerBuilder): void
     {
         $handler = $handlerBuilder->build($this->errorChannel, $this->formatter, $this->processors);
         if (!isset($this->loggerChannels[$this->errorChannel])) {
@@ -118,7 +103,7 @@ class LoggingFactory implements LoggerFactoryInterface
     /**
      * @param HandlerBuilderInterface $handlerBuilder
      */
-    public function addHandlerBuilder(HandlerBuilderInterface $handlerBuilder)
+    public function addHandlerBuilder(HandlerBuilderInterface $handlerBuilder): void
     {
 
         $this->handlerBuilders[] = $handlerBuilder;
@@ -127,7 +112,7 @@ class LoggingFactory implements LoggerFactoryInterface
     /**
      * @param callable $processor
      */
-    public function addProcessor(callable $processor)
+    public function addProcessor(callable $processor): void
     {
         $this->processors[] = $processor;
     }
@@ -135,7 +120,7 @@ class LoggingFactory implements LoggerFactoryInterface
     /**
      * @inheritDoc
      */
-    public function get($channel = null)
+    public function get($channel = null): Logger|LoggerInterface|SilentLogger
     {
         if (!isset($channel)) {
             $channel = $this->defaultChannel;
@@ -153,9 +138,9 @@ class LoggingFactory implements LoggerFactoryInterface
      *
      * @param string $channel
      *
-     * @return LoggerInterface
+     * @return LoggerInterface|SilentLogger
      */
-    private function createLogger($channel)
+    private function createLogger(string $channel): LoggerInterface|SilentLogger
     {
         $handlers = [];
 

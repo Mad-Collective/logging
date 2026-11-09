@@ -1,4 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 
-printf "\nRunning unit tests in PHP $1\n"
-$1 ./bin/phpspec run
+PHP_CMD="$1"
+# Check if php-{version} exists, otherwise use php
+if [ -n "$PHP_CMD" ] && ! command -v "$PHP_CMD" > /dev/null 2>&1; then
+    PHP_CMD="php"
+fi
+
+printf "\nRunning unit tests in PHP ${PHP_CMD}\n"
+$PHP_CMD ./bin/phpspec run
